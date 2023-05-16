@@ -1,7 +1,12 @@
+use std::process::Command;
 use actix_web::{web, App, HttpServer};
 
 async fn handle_push_event(payload: String) -> String {
-    println!("Received push event: {}", payload);
+    println!("Received push event");
+    let output = Command::new("git").arg("pull").output().expect("Error pulling");
+
+    println!("output: {}", String::from_utf8_lossy(&output.stdout));
+
     "Push event received".to_string()
 }
 
